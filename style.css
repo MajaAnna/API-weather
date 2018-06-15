@@ -52,8 +52,13 @@ body{
 }
 
 /* data section */
-.data-section{
+
+.error-message{
+    padding:20px 10px;
+    color:#666;
+    margin:20px 0;
     background-color: beige;
+    border-radius: 5px;
 }
 
 /* error section */
