@@ -1,55 +1,52 @@
 const url = 'https://api.openweathermap.org/data/2.5/weather?q=',
       cityName = $('#city').val(),
-      key = '&appid=48066df5beb56b726aa679490b0115e4';
+      key = '&appid=753a3c48264ad65dd778fb0a6a33720e';
 
-const weatherInfo = $('.weather-information');
-
-      
+const weatherInfo = $('.weather-information'),
+      errorMessage = $('.error-message'),
+      searchingBtn = $('#search');
+  
 $(()=>{
     weatherLoading();
 })
 
 let weatherLoading = () => {
-    const errorMessage = $('.error-message'),
-          searchingBtn = $('#search');
-    
     errorMessage.hide();
     weatherInfo.hide();
+    
     searchingBtn.on('click', function(){
-        if (cityName !== ''){
+        if (cityName === ''){
+            errorMessage.show();
+            errorMessage.text('There is a wrong input, try one more time!')
+            setTimeout(function(){ location.reload(); }, 3000)
+        } else {
             $.ajax({
                 url: url + cityName + '&units=metric' + key,
                 dataType: 'jsonp'
             }).done(function(resp){
-                console.log(resp.main);
-                weatherInformation(resp, resp.weather, resp.main)
+                // console.log(resp.main);
+                weatherInformation(resp, resp.weather, resp.main);
             }).fail(function(error){
                 console.log(error.status)
                 errorLoading(error.status)
             })
-            
-        } else {
-            errorMessage.show();
-            errorMessage.text('There is a wrong input, try one more time!')
         }
-    })
-
-    
+    })  
 }
 
 let weatherInformation = (resp, weather, main) => {
-    
     weatherInfo.show();
-
+    
     const icon = $('.weather-icon'),
           city = $('.city-name')
           mainInfo = $('.main-info'),
           mainDescription = $('.main-description'),
           temp = $('.temperature'),
           tempMin = $('.temp-min'),
-          tempMax = $('.temp-max');
+          tempMax = $('.temp-max'),
+          number = weather.length;
 
-    for (let i = 0; i < weather.length; i++){
+    for (let i = 0; i < number; i++){
         const newIcon = $('<img class="icon">').attr('src', `http://openweathermap.org/img/w/${weather[i].icon}.png`),
               newMainInfo = $('<p>').text(weather[i].main),
               newMainDescription = $('<p>').text(weather[i].description);
@@ -65,6 +62,7 @@ let weatherInformation = (resp, weather, main) => {
     tempMax.text('max temperature: ' + main.temp_max + '°C');
     
     $('#city').val('');
+    
 }
 
 let errorLoading = status => {

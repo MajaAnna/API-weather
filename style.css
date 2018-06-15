@@ -24,6 +24,8 @@ body{
     border:1px soli #618985;
     border-radius: 5px;
     padding:20px;
+    display:grid;
+    grid-template-columns: 1fr;
 }
 
 .title{
@@ -41,12 +43,13 @@ body{
 }
 
 #search{
+    cursor:pointer;
     text-transform: uppercase;
     background-color: #618985;
     color:white;
     border-radius: 5px;
     padding:10px;
-    width:100%;
+    text-align:center;
     border: none;
     -webkit-box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.75);
@@ -81,9 +84,11 @@ body{
 }
 
 .weather-icon{
-    width:100%;
-    height:100%;
     object-fit: cover;
+}
+
+.icon{
+    width:5vw;
 }
 
 /* error section */
