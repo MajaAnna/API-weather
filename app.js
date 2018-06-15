@@ -47,8 +47,8 @@ let weatherInformation = (resp, weather, main) => {
 
     for (let i = 0; i < number; i++){
         const newIcon = $('<img class="icon">').attr('src', `http://openweathermap.org/img/w/${weather[i].icon}.png`),
-              newMainInfo = $('<span>').text(weather[i].main+ ' '),
-              newMainDescription = $('<span>').text(weather[i].description+' ');
+              newMainInfo = $('<span>').text(weather[i].main+ ', '),
+              newMainDescription = $('<span>').text(weather[i].description+', ');
 
         icon.append(newIcon);
         mainInfo.append(newMainInfo);
