@@ -14,23 +14,27 @@ let weatherLoading = () => {
     errorMessage.hide();
     weatherInfo.hide();
     
-    searchingBtn.on('click', function(){
-        if (cityName === ''){
-            errorMessage.show();
-            errorMessage.text('There is a wrong input, try one more time!')
-            setTimeout(function(){ location.reload(); }, 3000)
-        } else {
+    searchingBtn.on('click', function(e){
+        e.preventDefault();
+        if(cityName !== ''){
             $.ajax({
                 url: url + cityName + '&units=metric' + key,
                 dataType: 'jsonp'
             }).done(function(resp){
                 // console.log(resp.main);
-                weatherInformation(resp, resp.weather, resp.main);
+                weatherInformation(resp.name, resp.weather, resp.main);
             }).fail(function(error){
                 console.log(error.status)
                 errorLoading(error.status)
+                return true;
             })
+        } else {
+            errorMessage.show();
+            errorMessage.text('There is a wrong input, try one more time!')
+            setTimeout(function(){ location.reload(); }, 1500)
+            return true;
         }
+        return true;
     })  
 }
 
@@ -48,21 +52,20 @@ let weatherInformation = (resp, weather, main) => {
 
     for (let i = 0; i < number; i++){
         const newIcon = $('<img class="icon">').attr('src', `http://openweathermap.org/img/w/${weather[i].icon}.png`),
-              newMainInfo = $('<p>').text(weather[i].main),
-              newMainDescription = $('<p>').text(weather[i].description);
+              newMainInfo = $('<span>').text(weather[i].main),
+              newMainDescription = $('<span>').text(weather[i].description);
 
         icon.append(newIcon);
         mainInfo.append(newMainInfo);
         mainDescription.append(newMainDescription);
     }
     
-    city.text(resp.name);
+    city.text(resp);
     temp.text('temperature: ' + main.temp + '°C');
     tempMin.text('min temperature: ' + main.temp_min + '°C');
     tempMax.text('max temperature: ' + main.temp_max + '°C');
     
     $('#city').val('');
-    
 }
 
 let errorLoading = status => {
