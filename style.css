@@ -17,6 +17,8 @@ body{
     padding:20px;
 }
 
+/* searching section */
+
 .searching-section{
     background-color: lightblue;
     border-radius: 5px;
@@ -47,4 +49,15 @@ body{
     -webkit-box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.75);
     box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.75);
+}
+
+/* data section */
+.data-section{
+    background-color: beige;
+}
+
+/* error section */
+.error-loading{
+    margin-top:20px;
+    color: orangered;
 }
