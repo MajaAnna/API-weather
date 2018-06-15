@@ -22,7 +22,7 @@ let weatherLoading = () => {
                 dataType: 'jsonp'
             }).done(function(resp){
                 console.log(resp.main);
-                weatherInformation(resp, resp.weather[0], resp.main)
+                weatherInformation(resp, resp.weather, resp.main)
             }).fail(function(error){
                 console.log(error.status)
                 errorLoading(error.status)
@@ -46,14 +46,23 @@ let weatherInformation = (resp, weather, main) => {
           mainDescription = $('.main-description'),
           temp = $('.temperature');
 
-    icon.html(weather.icon);
+    for (let i = 0; i < weather.length; i++){
+        const newIcon = $('<img>').attr('src', `http://openweathermap.org/img/w/${weather[i].icon}.png`),
+              newMainInfo = $('<p>').text(weather[i].name),
+              newMainDescription = $('<p>').text(weather[i].description);
+
+        icon.append(newIcon);
+        mainInfo.append(newMainInfo);
+        mainDescription.append(newMainDescription);
+    }
+    // icon.html(weather[n].icon);
+    // mainInfo.text(weather[n].main);
+    // mainDescription.text(weather[n].description);
     city.text(resp.name);
-    mainInfo.text(weather.main);
-    mainDescription.text(weather.description);
     temp.text(main.temp);
 
 
-    console.log(wind.speed)
+    console.log(weather[0].icon)
 }
 
 let errorLoading = status => {
