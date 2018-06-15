@@ -1,6 +1,8 @@
 const url = 'https://api.openweathermap.org/data/2.5/weather?q=',
       cityName = $('#city').val(),
-      key = '&48066df5beb56b726aa679490b0115e4';
+      key = '&appid=48066df5beb56b726aa679490b0115e4';
+
+const weatherInfo = $('.weather-information');
 
       
 $(()=>{
@@ -11,15 +13,16 @@ let weatherLoading = () => {
     const errorMessage = $('.error-message'),
           searchingBtn = $('#search');
     
-    errorMessage.hide()
+    errorMessage.hide();
+    weatherInfo.hide();
     searchingBtn.on('click', function(){
         if (cityName !== ''){
             $.ajax({
                 url: url + cityName + '&units=metric' + key,
                 dataType: 'jsonp'
             }).done(function(resp){
-                console.log(resp);
-                weatherInformation(resp.weather)
+                console.log(resp.main);
+                weatherInformation(resp, resp.weather[0], resp.main)
             }).fail(function(error){
                 console.log(error.status)
                 errorLoading(error.status)
@@ -34,12 +37,23 @@ let weatherLoading = () => {
     
 }
 
-let weatherInformation = (resp) => {
-    
+let weatherInformation = (resp, weather, main) => {
+    weatherInfo.show();
 
-          console.log(searchingBtn)
+    const icon = $('.weather-icon'),
+          city = $('.city-name')
+          mainInfo = $('.main-info'),
+          mainDescription = $('.main-description'),
+          temp = $('.temperature');
 
-    
+    icon.html(weather.icon);
+    city.text(resp.name);
+    mainInfo.text(weather.main);
+    mainDescription.text(weather.description);
+    temp.text(main.temp);
+
+
+    console.log(wind.speed)
 }
 
 let errorLoading = status => {
