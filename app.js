@@ -38,31 +38,33 @@ let weatherLoading = () => {
 }
 
 let weatherInformation = (resp, weather, main) => {
+    
     weatherInfo.show();
 
     const icon = $('.weather-icon'),
           city = $('.city-name')
           mainInfo = $('.main-info'),
           mainDescription = $('.main-description'),
-          temp = $('.temperature');
+          temp = $('.temperature'),
+          tempMin = $('.temp-min'),
+          tempMax = $('.temp-max');
 
     for (let i = 0; i < weather.length; i++){
-        const newIcon = $('<img>').attr('src', `http://openweathermap.org/img/w/${weather[i].icon}.png`),
-              newMainInfo = $('<p>').text(weather[i].name),
+        const newIcon = $('<img class="icon">').attr('src', `http://openweathermap.org/img/w/${weather[i].icon}.png`),
+              newMainInfo = $('<p>').text(weather[i].main),
               newMainDescription = $('<p>').text(weather[i].description);
 
         icon.append(newIcon);
         mainInfo.append(newMainInfo);
         mainDescription.append(newMainDescription);
     }
-    // icon.html(weather[n].icon);
-    // mainInfo.text(weather[n].main);
-    // mainDescription.text(weather[n].description);
+    
     city.text(resp.name);
-    temp.text(main.temp);
-
-
-    console.log(weather[0].icon)
+    temp.text('temperature: ' + main.temp + '°C');
+    tempMin.text('min temperature: ' + main.temp_min + '°C');
+    tempMax.text('max temperature: ' + main.temp_max + '°C');
+    
+    $('#city').val('');
 }
 
 let errorLoading = status => {
